@@ -1,6 +1,7 @@
 package page
 
 import (
+	"gorush/src/config"
 	"log"
 	"net/http"
 	"text/template"
@@ -17,8 +18,8 @@ import (
 // }
 //
 func NewPage(pattern,filename string){
-	prefix:="./pages/"
-	suffix:=".html"
+	prefix:=config.Get[string]("page.root")
+	suffix:=config.Get[string]("page.ext")
 	handler:=func (w http.ResponseWriter,r *http.Request){
 		log.Println(r.Method,r.URL)
 		if r.Method=="GET"{

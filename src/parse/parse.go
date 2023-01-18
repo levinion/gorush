@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
-
+	"path"
 	"github.com/russross/blackfriday"
 )
 
@@ -19,6 +19,9 @@ func ParseMarkdown(){
 		return
 	}
 	for _,file:=range files{
+		if path.Ext(file.Name())!=".md"{
+			continue
+		}
 		in,err:=os.ReadFile(inDir+file.Name())
 		if err!=nil{
 			log.Println("Failed on reading files:",err.Error())
