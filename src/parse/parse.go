@@ -1,41 +1,39 @@
 package parse
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"strings"
 	"path"
+	"strings"
+
 	"github.com/russross/blackfriday"
 )
 
-func ParseMarkdown(){
-	inDir:="./origin/"
-	outDir:="./pages/posts/"
+type ParseResult struct{
+	Filename string
+	Content string
+}
 
-	files,err:=os.ReadDir(inDir)
+func ParseMarkdown() []*ParseResult{
+	dir:="./posts/"
+	files,err:=os.ReadDir(dir)
 	if err!=nil{
 		log.Println("Markdown parse failed:",err.Error())
-		return
+		return nil
 	}
-	for _,file:=range files{
+	r:=make([]*ParseResult,len(files))
+	for i,file:=range files{
 		if path.Ext(file.Name())!=".md"{
 			continue
 		}
-		in,err:=os.ReadFile(inDir+file.Name())
+		in,err:=os.ReadFile(dir+file.Name())
 		if err!=nil{
-			log.Println("Failed on reading files:",err.Error())
-			return
+			log.Println("Read file failed:",err.Error())
+			return nil
 		}
-		data:=blackfriday.MarkdownCommon(in)
 		fileNameWithoutSuffix:=strings.TrimSuffix(file.Name(),".md")
-		out,err:=os.OpenFile(outDir+fileNameWithoutSuffix+".html",os.O_CREATE|os.O_WRONLY,0666)
-		if err!=nil{
-			log.Println("Failed on writing files:",err.Error())
-			return
-		}
-		defer out.Close()
-		fmt.Fprint(out,string(data))
+		r[i] = &ParseResult{fileNameWithoutSuffix,string(blackfriday.MarkdownCommon(in))}
 	}
 	log.Println("Parse Markdown success!")
+	return r
 }
