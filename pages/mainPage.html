@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,19 +9,17 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li>
-                <a href="./">GoRush</a>
-            </li>
-        </ul>
-        <ul>
-            <li>
-                <a href="./posts">Posts</a>
-            </li>
-            <li>
-                <a href="./about">About</a>
-            </li>
-        </ul>
+        <a href="./" class="logo">GoRush</a>
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a href="./posts">Posts</a>
+                </li>
+                <li>
+                    <a href="./about">About</a>
+                </li>
+            </ul>
+            </div>
     </nav>
     <main>
         <h1>Welcome to The Project GoRush!</h1>
@@ -30,8 +28,8 @@
                 <a href="https://levinion.github.io">blog</a>
             </div>
             <div class="buttons">
-                <button>Posts</button>
-                <button>About</button>
+                <button class="contrast" onclick="location.href='/posts';">Posts</button>
+                <button class="contrast" onclick="location.href='/about';">About</button>
             </div>
         </div>
     </main>
@@ -57,13 +55,30 @@
         max-width: 50%;
     }
     .buttons{
-        margin:0 auto;
+        margin:50px auto;
         max-width: 20%;
-        left:50%
+        left:50%;
     }
-    button{
-        size: 10px 10px;
+    .buttons button{
+        float:left;
+        height: 40px;
+        width: 100px;
+        text-align: center;
+        margin: 0 10px;
+        line-height: 0px;
+        background: rgb(65,66,68)
+    }
+    .logo{
+        margin-top: 10px;
+        margin-left: 30px;
+        color:white;
+        font-size: x-large;
+    }
+    .breadcrumb{
+        margin-right:50px;
+    }
+    .breadcrumb a{
+        color:white;
     }
 </style>
-
 </html>

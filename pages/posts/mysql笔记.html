@@ -1,0 +1,67 @@
+<hr />
+
+<p>title: &ldquo;Mysql笔记&rdquo;
+date: 2022-10-10T09:45:10+08:00</p>
+
+<h2>draft: true</h2>
+
+<h2>MySQL 安装</h2>
+
+<h2>使用</h2>
+
+<h3>新建</h3>
+
+<ol>
+<li>创建数据库
+<code>create database [name of database]</code></li>
+
+<li><p>创建数据表
+<code>create table [name of table]</code></p>
+
+<h3>选择</h3></li>
+
+<li><p>选择全部
+<code>select * from [table name]</code></p></li>
+
+<li><p>选择列
+<code>select [列1],[列2],[列3]... from [table name]</code></p></li>
+
+<li><p>去重
+<code>select distinct [列] from [table name]</code></p></li>
+
+<li><p>限制数目
+<code>select ... from ... limit 2</code></p></li>
+
+<li><p>别名
+<code>select ... as [别名] from ...</code></p></li>
+
+<li><p>条件选择
+<code>select ... from ... where [条件]</code></p></li>
+
+<li><p>between and
+用以选择某列在两值之间的条目
+<code>select ... from ... where [某项] between ... and ...</code></p></li>
+
+<li><p>不为空
+<code>where [条目] is not null</code></p></li>
+
+<li><p>in / not in
+<code>where [条目] in (具体条目)</code></p></li>
+
+<li><p>like
+模糊选择 ([] in  /  [^ ] not in   /   % 多个     /   _ 一个)
+<code>where university like '北京%'</code></p></li>
+
+<li><p>max
+<code>select max(gpa) as gpa from ... where ...</code></p></li>
+
+<li><p>count, avg, rounnd (圆整的数, 小数点后位数)</p></li>
+
+<li><p>group by 分组查询</p></li>
+
+<li><p>having 使用别名判断</p></li>
+
+<li><p>order by 字段 asc/desc</p></li>
+
+<li><p>join &hellip; on &hellip;</p></li>
+</ol>

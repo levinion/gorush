@@ -1,15 +1,16 @@
 package main
 
 import (
-	"gorush/page"
-	"log"
-	"net/http"
+	"gorush/src/page"
+	"gorush/src/serve"
+	"gorush/src/parse"
 )
 
 
 func main(){
+	parse.ParseMarkdown()
 	page.NewPage("/","mainPage")
 	page.NewPage("/posts","posts")
-	log.Println("Start listening at http://localhost:9090/")
-	http.ListenAndServe(":9090",nil)
+	page.NewPage("/about","about")
+	server.Run()
 }

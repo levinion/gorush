@@ -17,7 +17,7 @@ import (
 // }
 //
 func NewPage(pattern,filename string){
-	prefix:="./content/"
+	prefix:="./pages/"
 	suffix:=".html"
 	handler:=func (w http.ResponseWriter,r *http.Request){
 		log.Println(r.Method,r.URL)
