@@ -1,0 +1,12 @@
+.logo{
+    margin-top: 10px;
+    margin-left: 30px;
+    color:white;
+    font-size: x-large;
+}
+.breadcrumb{
+    margin-right:50px;
+}
+.breadcrumb a{
+    color:white;
+}

@@ -6,12 +6,16 @@ import (
 	"path"
 	"strings"
 
-	"github.com/russross/blackfriday"
+    "github.com/yuin/goldmark"
+    "github.com/yuin/goldmark/parser"
+    "github.com/yuin/goldmark-meta"
+	"bytes"
 )
 
 type ParseResult struct{
 	Filename string
 	Content string
+	MetaData map[string]any
 }
 
 func ParseMarkdown() []*ParseResult{
@@ -21,6 +25,12 @@ func ParseMarkdown() []*ParseResult{
 		log.Println("Markdown parse failed:",err.Error())
 		return nil
 	}
+
+	markdown:=goldmark.New(
+		goldmark.WithExtensions(meta.Meta,),
+	)
+
+
 	r:=make([]*ParseResult,len(files))
 	for i,file:=range files{
 		if path.Ext(file.Name())!=".md"{
@@ -32,7 +42,11 @@ func ParseMarkdown() []*ParseResult{
 			return nil
 		}
 		fileNameWithoutSuffix:=strings.TrimSuffix(file.Name(),".md")
-		r[i] = &ParseResult{fileNameWithoutSuffix,string(blackfriday.MarkdownCommon(in))}
+		context:=parser.NewContext()
+		var buf bytes.Buffer
+		markdown.Convert(in,&buf,parser.WithContext(context))
+		metaData:=meta.Get(context)
+		r[i] = &ParseResult{fileNameWithoutSuffix,buf.String(),metaData}
 	}
 	log.Println("Parse Markdown success!")
 	return r

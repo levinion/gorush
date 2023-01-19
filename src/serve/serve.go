@@ -16,8 +16,7 @@ func ListenAndServe(){
 func Run(){
 	config.Init()
 	page.NewPage("/","mainPage")
-	page.NewPage("/posts/","posts")
 	page.NewPage("/about/","about")
-	page.InitPosts()
+	page.InitMain()
 	ListenAndServe()
 }
