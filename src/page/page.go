@@ -1,11 +1,11 @@
 package page
 
 import (
-	"gorush/src/config"
+	"github.com/levinion/gorush/src/config"
 	"log"
 	"net/http"
 	"text/template"
-	"gorush/src/parse"
+	"github.com/levinion/gorush/src/parse"
 )
 
 func NewPage(pattern,filename string){

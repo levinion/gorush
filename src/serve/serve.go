@@ -1,10 +1,10 @@
 package serve
 
 import (
-	"gorush/src/config"
+	"github.com/levinion/gorush/src/config"
 	"log"
 	"net/http"
-	"gorush/src/page"
+	"github.com/levinion/gorush/src/page"
 )
 
 func ListenAndServe(){

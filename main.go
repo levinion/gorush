@@ -1,6 +1,6 @@
 package main
 
-import "gorush/src/cmd"
+import "github.com/levinion/gorush/src/cmd"
 
 func main(){
 	cmd.Run()

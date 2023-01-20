@@ -2,7 +2,7 @@ package cmd
 
 import(
 	"github.com/urfave/cli"
-	"gorush/src/serve"
+	"github.com/levinion/gorush/src/serve"
 	"os"
 	"log"
 )
