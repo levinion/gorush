@@ -41,7 +41,7 @@ func NotExist() bool{
 
 var ConfigTemplate=
 `[version]
-version = "1.0"
+version = "v0.0.2"
 
 [server]
 addr = "localhost:9090"`
