@@ -6,6 +6,7 @@ import (
 	"text/template"
 	"github.com/levinion/gorush/parser"
 	"github.com/levinion/gorush/model"
+	"github.com/levinion/gorush/config"
 )
 
 // 将HTML渲染成页面，需传入路由路径和文件路径
@@ -61,4 +62,10 @@ func RenderMarkdown(pattern,filename,templateName string){
 	parseResult:=parser.ParseMarkdown(filename)
 	handler:=handleParseResult(parseResult,templateName)
 	http.HandleFunc(pattern,handler)
+}
+
+func Run(){
+	addr:=config.Get[string]("server.addr")
+	log.Listen(addr)
+	http.ListenAndServe(addr,nil)
 }
