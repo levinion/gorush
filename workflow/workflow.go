@@ -15,8 +15,9 @@ func ListenAndServe(){
 
 func Run(){
 	config.Init()
-	render.RenderPage("/","./templates/mainPage.html")
-	render.RenderPage("/about/","./templates/about.html")
+	render.RenderHTML("/","./templates/mainPage.html")
+	render.RenderHTML("/about/","./templates/about.html")
 	render.GroupRenderMarkdown("/posts/","./resources/","./templates/posts.html","./templates/default.html")
+	// render.RenderMarkdown("/test/","./resources/parts.md","./templates/default.html")
 	ListenAndServe()
 }

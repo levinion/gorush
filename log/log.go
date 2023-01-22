@@ -42,7 +42,7 @@ func Info(r *http.Request){
 }
 //日志输出路由地址
 func Handle(pattern string){
-	log.Println("Start handling",pattern+"...")
+	log.Println("Start handling",pattern)
 }
 //日志输出监听端口提示
 func Listen(addr string){

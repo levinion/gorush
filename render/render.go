@@ -8,7 +8,8 @@ import (
 	"github.com/levinion/gorush/model"
 )
 
-func RenderPage(pattern,filename string){
+// 将HTML渲染成页面，需传入路由路径和文件路径
+func RenderHTML(pattern,filename string){
 	handler:=func (w http.ResponseWriter,r *http.Request){
 		log.Info(r)
 		if r.Method=="GET"{
@@ -20,14 +21,18 @@ func RenderPage(pattern,filename string){
 	log.Handle(pattern)
 }
 
+/* 
+将文件夹下所有markdown文件渲染成目录和文章，
+需分别传入路由路径、markdown文件所在文件夹路径、目录页面模板、文章页面模板
+*/
 func GroupRenderMarkdown(renderRoot,markdownRoot,categoryTemplateName,markdownTemplateName string){
-	ParseResults:=parser.ParseMarkdown(markdownRoot)
-	for _,parseResult:=range ParseResults{
-		handler:=handleResult(parseResult, markdownTemplateName)
+	parseResults:=parser.GroupParseMarkdown(markdownRoot)
+	for _,parseResult:=range parseResults{
+		handler:=handleParseResult(parseResult, markdownTemplateName)
 		pattern:=renderRoot+parseResult.Filename
 		http.HandleFunc(pattern,handler)
 	}
-	categoryRenderMarkdown(renderRoot,categoryTemplateName,ParseResults)
+	categoryRenderMarkdown(renderRoot,categoryTemplateName,parseResults)
 }
 
 func categoryRenderMarkdown(renderRoot,categoryTemplateName string,parseResult []*model.ParseResult){
@@ -42,7 +47,7 @@ func categoryRenderMarkdown(renderRoot,categoryTemplateName string,parseResult [
 	http.HandleFunc(pattern,handler)
 }
 
-func handleResult(parseResult *model.ParseResult,templateName string)func(w http.ResponseWriter,r *http.Request){
+func handleParseResult(parseResult *model.ParseResult,templateName string)func(w http.ResponseWriter,r *http.Request){
 	return func(w http.ResponseWriter,r *http.Request){
 		log.Info(r)
 		if r.Method=="GET"{
@@ -50,4 +55,10 @@ func handleResult(parseResult *model.ParseResult,templateName string)func(w http
 			t.Execute(w,parseResult)
 		}
 	}
+}
+
+func RenderMarkdown(pattern,filename,templateName string){
+	parseResult:=parser.ParseMarkdown(filename)
+	handler:=handleParseResult(parseResult,templateName)
+	http.HandleFunc(pattern,handler)
 }
