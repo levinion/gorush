@@ -39,9 +39,9 @@ func NotExist() bool{
 	return os.IsNotExist(err)
 }
 
-var ConfigTemplate=`[server]
-addr = "localhost:9090"
+var ConfigTemplate=
+`[version]
+version = "1.0"
 
-[page]
-root = "./pages/"
-ext = ".html"`
+[server]
+addr = "localhost:9090"`
