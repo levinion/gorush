@@ -8,6 +8,7 @@ import (
 	"github.com/levinion/gorush/log"
 	"github.com/levinion/gorush/model"
 	"github.com/levinion/gorush/util"
+	"github.com/spf13/viper"
 )
 
 
@@ -20,7 +21,7 @@ type Renderer struct{
 
 //新建一个Render对象
 func NewRenderer(parseDir ...string)*Renderer{
-	cfg:=config.Config{}
+	cfg:=config.Config{Viper: *viper.New()}
 	cfg.Init()
 	if len(parseDir)==0{
 		return 	&Renderer{
