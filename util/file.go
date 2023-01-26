@@ -4,19 +4,10 @@ import (
 	"log"
 	"os/exec"
 	"os"
+	"strings"
+	"path"
 )
 
-// func Copy(src string,des string){
-// 	input,err:=os.OpenFile(src,os.O_RDONLY,0666)
-// 	if err!=nil{
-// 		log.Println("Read File Failed:",err)
-// 	}
-// 	output,err:=os.OpenFile(des,os.O_CREATE|os.O_WRONLY,0666)
-// 	if err!=nil{
-// 		log.Println("Write File Failed:",err)
-// 	}
-// 	io.Copy(output,input)
-// }
 
 // 依赖于系统的暂时性的复制方案
 func Copy(src string,des string){
@@ -35,4 +26,8 @@ func IsDirExist(address string) bool{
 		}
 	}
 	return false
+}
+
+func TrimFilenameSuffix(filename ,suffix string)string{
+	return strings.TrimSuffix(path.Base(filename),suffix)
 }

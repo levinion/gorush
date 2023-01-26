@@ -18,11 +18,7 @@ func Run() {
 	app.Usage = "a simple and quick blog easy to build and diy"
 	app.Version = "1.0"
 	app.Action = func(c *cli.Context) {
-		if config.NotExist() {
-			config.New("")
-		}
-		e := exec.Command("go", "run", "./main.go")
-		e.Run()
+		startServer()
 	}
 
 	app.Commands = cli.Commands{
@@ -31,11 +27,7 @@ func Run() {
 			Usage:   "启动服务",
 			Aliases: []string{"s"},
 			Action: func(c *cli.Context) {
-				if config.NotExist() {
-					config.New("")
-				}
-				e := exec.Command("go", "run", "./main.go")
-				e.Run()
+				startServer()
 			},
 		},
 		{
@@ -63,4 +55,16 @@ func Run() {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func startServer(){
+	if config.NotExist() {
+		config.New("")
+	}
+	e := exec.Command("go", "run", "./main.go")
+	out,err:=e.CombinedOutput()
+	if err!=nil{
+		log.Error("执行命令失败",err)
+	}
+	log.Println(string(out))
 }

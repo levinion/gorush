@@ -1,55 +1,57 @@
-package parser
+package render
 
 import (
-	"github.com/levinion/gorush/log"
 	"os"
 	"path"
 	"strings"
 
-    "github.com/yuin/goldmark"
-    "github.com/yuin/goldmark/parser"
-    "github.com/yuin/goldmark-meta"
-	"github.com/levinion/gorush/model"
+	"github.com/levinion/gorush/log"
+	"github.com/levinion/gorush/util"
+
 	"bytes"
+
+	"github.com/levinion/gorush/model"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 )
 
-
-func GroupParseMarkdown(dir string) []*model.ParseResult{
+//遍历解析目录下的Markdown文件
+func (r *Renderer)GroupParseMarkdown(dir string){
 	files,err:=os.ReadDir(dir)
 	if err!=nil{
 		log.ParseError(err)
-		return nil
+		return
 	}
 
 	markdown:=goldmark.New(
 		goldmark.WithExtensions(meta.Meta,),
 	)
 
-	r:=make([]*model.ParseResult,len(files))
-	for i,file:=range files{
+	for _,file:=range files{
 		if path.Ext(file.Name())!=".md"{
 			continue
 		}
 		in,err:=os.ReadFile(dir+file.Name())
 		if err!=nil{
 			log.ReadError(err)
-			return nil
+			return
 		}
 		filenameWithoutSuffix:=strings.TrimSuffix(file.Name(),".md")
 		context:=parser.NewContext()
 		var buf bytes.Buffer
 		markdown.Convert(in,&buf,parser.WithContext(context))
 		metaData:=meta.Get(context)
-		r[i] = &(model.ParseResult{Filename: filenameWithoutSuffix,Content: buf.String(),MetaData: metaData})
+		r.Articles[filenameWithoutSuffix] = &(model.Article{Title: filenameWithoutSuffix,Content: buf.String(),MetaData: metaData})
 	}
 	log.ParseSuccess()
-	return r
 }
 
-func ParseMarkdown(filename string) *model.ParseResult{
+//解析单个Markdown文件
+func (r *Renderer)ParseMarkdown(filename string){
 	if path.Ext(filename)!=".md"{
 		log.Println("操作非法：非markdown文件")
-		return nil
+		return
 	}
 	f,err:=os.ReadFile(filename)
 	if err!=nil{
@@ -58,11 +60,10 @@ func ParseMarkdown(filename string) *model.ParseResult{
 	markdown:=goldmark.New(
 		goldmark.WithExtensions(meta.Meta,),
 	)
-	filenameWithoutSuffix:=strings.TrimSuffix(path.Base(filename),".md")
+	filenameWithoutSuffix:=util.TrimFilenameSuffix(filename,".md")
 	context:=parser.NewContext()
 	var buf bytes.Buffer
 	markdown.Convert(f,&buf,parser.WithContext(context))
 	metaData:=meta.Get(context)
-	r:= &(model.ParseResult{Filename: filenameWithoutSuffix,Content: buf.String(),MetaData: metaData})
-	return r
+	r.MdPages[filenameWithoutSuffix]=&(model.Article{Title: filenameWithoutSuffix,Content: buf.String(),MetaData: metaData})
 }

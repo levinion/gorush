@@ -1,7 +1,8 @@
 package model
 
-type ParseResult struct{
-	Filename string
+type Article struct{
+	Title string
 	Content string
 	MetaData map[string]any
 }
+

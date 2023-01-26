@@ -1,16 +1,18 @@
 package test
 
 import (
-	"github.com/levinion/gorush/config"
 	"github.com/levinion/gorush/render"
 )
 
-
 func Run(){
-	config.Init()
-	render.RenderHTML("/","./templates/mainPage.html")
-	render.RenderHTML("/about/","./templates/about.html")
-	render.GroupRenderMarkdown("/posts/","./resources/","./templates/posts.html","./templates/default.html")
+	r:=render.NewRenderer()		//新建Renderer对象，配置文件将在这一步初始化
+	r.Parse("./resources/")		//解析Markdown文件目录，若在上一步传入目录则可略去
+
+	//下面是页面添加流程示例：
+	r.RenderHTML("/","./templates/mainPage.html")
+	// r.RenderHTML("/about/","./templates/about.html")
+	r.GroupRenderMarkdown("/posts/","./templates/posts.html","./templates/default.html")
 	// render.RenderMarkdown("/test/","./resources/parts.md","./templates/default.html")
-	render.Run()
+
+	r.Run()		//调用Run以运行服务，可写入端口，否则将使用配置文件中定义的端口
 }

@@ -7,10 +7,14 @@ import (
 	"github.com/spf13/viper"
 )
 
+type Config struct{
+	viper.Viper
+}
+
 // config初始化
-func Init(){
-	viper.SetConfigFile("./config.toml")
-	err:=viper.ReadInConfig()
+func (cfg *Config)Init(){
+	cfg.SetConfigFile("./config.toml")
+	err:=cfg.ReadInConfig()
 	if err!=nil{
 		log.Println("Read config failed:",err)
 		return
@@ -26,11 +30,6 @@ func New(projectName string){
 		log.WriteError(err)
 	}
 	c.WriteString(ConfigTemplate)
-}
-
-// 获取配置，使用泛型函数改写viper.Get方法
-func Get[T any](key string)T{
-	return viper.Get(key).(T)
 }
 
 // 配置文件不存在时返回ture，否则返回false
