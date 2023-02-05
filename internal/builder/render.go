@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"gorush/internal/util"
+	"github.com/levinion/gorush/internal/util"
 	"net/http"
 	"path/filepath"
 

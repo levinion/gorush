@@ -2,7 +2,7 @@ package templates
 
 import (
 	_ "embed"
-	"gorush/internal/model"
+	"github.com/levinion/gorush/internal/model"
 	"html/template"
 	"os"
 	"path/filepath"

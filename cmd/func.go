@@ -1,16 +1,17 @@
 package cmd
 
 import (
-	"gorush/internal/builder"
-	"gorush/internal/embed/assets"
-	"gorush/internal/embed/config"
-	"gorush/internal/embed/root"
-	"gorush/internal/embed/templates"
-	"gorush/internal/model"
-	"gorush/internal/util"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/levinion/gorush/internal/builder"
+	"github.com/levinion/gorush/internal/embed/assets"
+	"github.com/levinion/gorush/internal/embed/config"
+	"github.com/levinion/gorush/internal/embed/root"
+	"github.com/levinion/gorush/internal/embed/templates"
+	"github.com/levinion/gorush/internal/model"
+	"github.com/levinion/gorush/internal/util"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -36,7 +37,7 @@ func Get(cmd *cobra.Command, args []string) {
 	templates.Get() //获取默认模板
 	assets.Get()    //获取默认css和js文件
 	root.Get()
-	util.SimpleMkdir("static")    //获取默认静态文件
+	util.SimpleMkdir("static") //获取默认静态文件
 
 }
 
@@ -117,7 +118,7 @@ func clean(isCleanAll bool) {
 func initConfig() {
 	viper.SetConfigFile("config.toml")
 	if err := viper.ReadInConfig(); err != nil {
-		zap.L().Debug("配置文件不存在，请尝试运行 gorush get 命令获取默认配置文件")
+		zap.L().Debug("配置文件不存在，请尝试运行 github.com/levinion/gorush get 命令获取默认配置文件")
 		os.Exit(1)
 	}
 }

@@ -2,7 +2,7 @@ package config
 
 import (
 	_ "embed"
-	"gorush/internal/util"
+	"github.com/levinion/gorush/internal/util"
 )
 
 //go:embed config.toml

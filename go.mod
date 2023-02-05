@@ -1,4 +1,4 @@
-module gorush
+module github.com/levinion/gorush
 
 go 1.20
 

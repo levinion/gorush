@@ -2,7 +2,7 @@ package templates
 
 import (
 	"embed"
-	"gorush/internal/util"
+	"github.com/levinion/gorush/internal/util"
 	"path/filepath"
 
 	"github.com/spf13/viper"

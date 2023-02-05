@@ -1,13 +1,14 @@
 package builder
 
 import (
-	"gorush/internal/model"
-	"gorush/internal/util"
 	"html/template"
 	"io/fs"
 	"path/filepath"
 	"sort"
 	"time"
+
+	"github.com/levinion/gorush/internal/model"
+	"github.com/levinion/gorush/internal/util"
 
 	"github.com/spf13/viper"
 )
@@ -36,33 +37,33 @@ func (builder *Builder) DumpContentOnlyPage(name string) {
 // 读取content/posts下目录和文章，存取到builder.repo
 func (builder *Builder) DumpPosts() {
 	WalkPosts(func(dirName string, file fs.DirEntry) {
-		builder.readPostsOfCategory(dirName,file)
+		builder.readPostsOfCategory(dirName, file)
 	})
 	//按时间对文章进行排序
 	builder.sortPostsByTime()
 }
 
-func (builder *Builder) readPostsOfCategory(dirName string,file fs.DirEntry) {
+func (builder *Builder) readPostsOfCategory(dirName string, file fs.DirEntry) {
 
-		filename := filepath.Join(dirName, file.Name())
-		if filepath.Ext(filename) != ".md" {
-			return
-		}
-		buf, metaData, err := builder.ParseMarkdown(filename)
-		if err != nil {
-			panic(err)
-		}
+	filename := filepath.Join(dirName, file.Name())
+	if filepath.Ext(filename) != ".md" {
+		return
+	}
+	buf, metaData, err := builder.ParseMarkdown(filename)
+	if err != nil {
+		panic(err)
+	}
 
-		post := model.Post{
-			Category: filepath.Base(dirName),
-			Filename: util.TrimExt(file.Name()),
-			MetaData: model.MetaData{
-				Title:   metaData["title"].(string), //断言为string类型
-				Created: metaData["created"].(string),
-			},
-			Content: template.HTML(buf.String()),
-		}
-		builder.Repo.Posts = append(builder.Repo.Posts, post)
+	post := model.Post{
+		Category: filepath.Base(dirName),
+		Filename: util.TrimExt(file.Name()),
+		MetaData: model.MetaData{
+			Title:   metaData["title"].(string), //断言为string类型
+			Created: metaData["created"].(string),
+		},
+		Content: template.HTML(buf.String()),
+	}
+	builder.Repo.Posts = append(builder.Repo.Posts, post)
 
 }
 

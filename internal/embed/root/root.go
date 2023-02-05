@@ -2,7 +2,7 @@ package root
 
 import (
 	"embed"
-	"gorush/internal/util"
+	"github.com/levinion/gorush/internal/util"
 	"path/filepath"
 )
 

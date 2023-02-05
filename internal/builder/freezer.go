@@ -1,10 +1,12 @@
 package builder
 
 import (
-	"gorush/internal/model"
-	"gorush/internal/util"
 	"os"
 	"path/filepath"
+
+	"github.com/levinion/gorush/internal/util"
+
+	"github.com/levinion/gorush/internal/model"
 
 	"github.com/spf13/viper"
 )
@@ -80,7 +82,7 @@ func (builder *Builder) FreezeEachCategoryPosts() {
 
 	var cMap = make(map[string][]model.Post)
 
-	for _, post := range builder.Posts {
+	for _, post := range builder.Repo.Posts {
 		cMap[post.Category] = append(cMap[post.Category], post)
 	}
 

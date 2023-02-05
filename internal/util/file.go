@@ -2,7 +2,7 @@ package util
 
 import (
 	"fmt"
-	"gorush/internal/model"
+	"github.com/levinion/gorush/internal/model"
 	"io/fs"
 	"os"
 	"path/filepath"

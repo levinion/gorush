@@ -12,7 +12,7 @@ import (
 	emoji "github.com/yuin/goldmark-emoji"
 	meta "github.com/yuin/goldmark-meta"
 
-	"gorush/internal/model"
+	"github.com/levinion/gorush/internal/model"
 
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"

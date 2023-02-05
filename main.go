@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gorush/cmd"
-	"gorush/log"
+	"github.com/levinion/gorush/log"
+
+	"github.com/levinion/gorush/cmd"
 )
 
 func main() {
