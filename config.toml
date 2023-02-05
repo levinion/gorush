@@ -1,0 +1,8 @@
+[pages]
+contentOnlyPages=["about"]
+
+[posts]
+excludeDirs=["drafts"]
+
+[server]
+addr="localhost:9090"

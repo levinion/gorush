@@ -8,6 +8,7 @@ import (
 	"github.com/levinion/gorush/internal/builder"
 	"github.com/levinion/gorush/internal/embed/assets"
 	"github.com/levinion/gorush/internal/embed/config"
+	"github.com/levinion/gorush/internal/embed/pages"
 	"github.com/levinion/gorush/internal/embed/root"
 	"github.com/levinion/gorush/internal/embed/templates"
 	"github.com/levinion/gorush/internal/model"
@@ -37,6 +38,7 @@ func Get(cmd *cobra.Command, args []string) {
 	templates.Get() //获取默认模板
 	assets.Get()    //获取默认css和js文件
 	root.Get()
+	pages.Get()
 	util.SimpleMkdir("static") //获取默认静态文件
 
 }
