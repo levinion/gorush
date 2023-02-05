@@ -1,7 +1,11 @@
 package main
 
-import "github.com/levinion/gorush/cmd"
+import (
+	"gorush/cmd"
+	"gorush/log"
+)
 
-func main(){
-	cmd.Run()
+func main() {
+	log.InitLogger()
+	cmd.Execute()
 }
