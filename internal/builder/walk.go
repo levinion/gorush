@@ -19,7 +19,7 @@ func WalkPosts(f func(dirName string,file fs.DirEntry)) {
 	if err != nil {
 		panic(entries)
 	}
-	excludeDirs := viper.GetStringSlice("posts/excludeDirs")
+	excludeDirs := viper.GetStringSlice("posts.excludeDirs")
 
 	for _, entry := range entries {
 		if !entry.IsDir() || !util.IsNotIn(excludeDirs, entry.Name()) {
