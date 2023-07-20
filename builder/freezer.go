@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/levinion/gorush/internal/util"
+	"github.com/levinion/gorush/util"
 
-	"github.com/levinion/gorush/internal/model"
+	"github.com/levinion/gorush/model"
 
 	"github.com/spf13/viper"
 )

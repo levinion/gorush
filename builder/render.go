@@ -1,23 +1,24 @@
 package builder
 
 import (
-	"github.com/levinion/gorush/internal/util"
 	"net/http"
 	"path/filepath"
+
+	"github.com/levinion/gorush/util"
 
 	"github.com/spf13/viper"
 )
 
 func (builder *Builder) RenderAssets() {
 	fs := http.FileServer(http.Dir("docs/assets/css/"))
-	http.Handle("/assets/css/", http.StripPrefix("/assets/css/", fs))
+	builder.Mux.Handle("/assets/css/", http.StripPrefix("/assets/css/", fs))
 }
 
 func (builder *Builder) RenderCategory() {
 	pattern := "/category/"
 	filename := filepath.Join("docs", "category", "index.html")
 	handler := util.RenderHandle(filename)
-	http.HandleFunc(pattern, handler)
+	builder.Mux.HandleFunc(pattern, handler)
 }
 
 func (builder *Builder) RenderAllContentOnlyPages() {
@@ -31,14 +32,14 @@ func (builder *Builder) RenderContentOnlyPage(name string) {
 	pattern := "/" + name + "/"
 	filename := filepath.Join("docs", name, "index.html")
 	handler := util.RenderHandle(filename)
-	http.HandleFunc(pattern, handler)
+	builder.Mux.HandleFunc(pattern, handler)
 }
 
 func (builder *Builder) RenderContents() {
 	pattern := "/posts/"
 	filename := filepath.Join("docs", "posts", "index.html")
 	handler := util.RenderHandle(filename)
-	http.HandleFunc(pattern, handler)
+	builder.Mux.HandleFunc(pattern, handler)
 }
 
 func (builder *Builder) RenderEachCategoryPosts() {
@@ -50,7 +51,7 @@ func (builder *Builder) RenderEachCategoryPosts() {
 		filename := filepath.Join("docs", "posts", category, "index.html")
 
 		handler := util.RenderHandle(filename)
-		http.HandleFunc(pattern, handler)
+		builder.Mux.HandleFunc(pattern, handler)
 	}
 }
 
@@ -58,7 +59,7 @@ func (builder *Builder) RenderIndex() {
 	pattern := "/"
 	filename := filepath.Join("docs", "index.html")
 	handler := util.RenderHandle(filename)
-	http.HandleFunc(pattern, handler)
+	builder.Mux.HandleFunc(pattern, handler)
 }
 
 func (builder *Builder) RenderPosts() {
@@ -68,6 +69,6 @@ func (builder *Builder) RenderPosts() {
 		filename := filepath.Join("docs", "posts", post.Category, post.Filename, "index.html")
 
 		handler := util.RenderHandle(filename)
-		http.HandleFunc(pattern, handler)
+		builder.Mux.HandleFunc(pattern, handler)
 	}
 }

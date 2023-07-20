@@ -2,8 +2,9 @@ package templates
 
 import (
 	"embed"
-	"github.com/levinion/gorush/internal/util"
 	"path/filepath"
+
+	"github.com/levinion/gorush/util"
 )
 
 //go:embed common/*

@@ -7,8 +7,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/levinion/gorush/internal/model"
-	"github.com/levinion/gorush/internal/util"
+	"github.com/levinion/gorush/model"
+	"github.com/levinion/gorush/util"
 
 	"github.com/spf13/viper"
 )

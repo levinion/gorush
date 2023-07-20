@@ -9,12 +9,11 @@ import (
 
 	"github.com/yuin/goldmark"
 
-	emoji "github.com/yuin/goldmark-emoji"
 	meta "github.com/yuin/goldmark-meta"
 
-	"github.com/levinion/gorush/internal/model"
+	"github.com/levinion/gorush/model"
+	"github.com/levinion/gorush/rebirth"
 
-	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 
 	"bytes"
@@ -24,30 +23,20 @@ type Builder struct {
 	Parser goldmark.Markdown
 	model.Repo
 	Counter
+	Mux *http.ServeMux
 }
 
 func NewBuilder() *Builder {
-	//初始化Markdown解析器
-	parser := goldmark.New(
-		goldmark.WithExtensions(
-			extension.GFM,
-			meta.Meta,
-			emoji.Emoji,
-			extension.CJK,
-			extension.DefinitionList,
-			extension.Footnote,
-		),
-	)
-
-	counter:=NewCounter()
-
+	parser := NewParser()
+	counter := NewCounter()
 	return &Builder{
 		Counter: *counter,
-		Parser: parser,
+		Parser:  parser,
 		Repo: model.Repo{
 			Posts: make([]model.Post, 0, counter.PostsNum),
-			Pages: make(map[string]model.Page,counter.PagesNum),
+			Pages: make(map[string]model.Page, counter.PagesNum),
 		},
+		Mux: http.NewServeMux(),
 	}
 }
 
@@ -81,8 +70,17 @@ func (builder *Builder) Render() {
 	builder.RenderEachCategoryPosts()
 }
 
-func (builder *Builder) Run(addr string) {
-	http.ListenAndServe(addr, nil)
+func (builder *Builder) Run(addr string,c rebirth.Context) {
+
+	server := &http.Server{Addr: addr, Handler: builder.Mux}
+	go server.ListenAndServe()
+	for{
+		if c.Check(){
+			builder.Mux=http.NewServeMux()
+			return
+		}
+	}
+
 }
 
 //以下是工具函数：

@@ -1,19 +1,20 @@
 package builder
 
 import (
-	"github.com/levinion/gorush/internal/util"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"sync"
+
+	"github.com/levinion/gorush/util"
 
 	"github.com/spf13/viper"
 )
 
 var wg sync.WaitGroup
 
-//并发在posts目录下处理事务
-func WalkPosts(f func(dirName string,file fs.DirEntry)) {
+// 并发在posts目录下处理事务
+func WalkPosts(f func(dirName string, file fs.DirEntry)) {
 	dir := filepath.Join("content", "posts")
 	entries, err := os.ReadDir(dir)
 	if err != nil {
@@ -28,13 +29,13 @@ func WalkPosts(f func(dirName string,file fs.DirEntry)) {
 		dirName := filepath.Join(dir, entry.Name())
 		wg.Add(1)
 		//并发读取文章
-		go func(){
+		go func() {
 			files, err := os.ReadDir(dirName)
 			if err != nil {
 				panic(err)
 			}
 			for _, file := range files {
-				f(dirName,file)
+				f(dirName, file)
 			}
 			wg.Done()
 		}()

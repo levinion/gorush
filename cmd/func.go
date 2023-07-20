@@ -2,17 +2,20 @@ package cmd
 
 import (
 	"os"
+	"os/signal"
 	"path/filepath"
+	"syscall"
 	"time"
 
-	"github.com/levinion/gorush/internal/builder"
-	"github.com/levinion/gorush/internal/embed/assets"
-	"github.com/levinion/gorush/internal/embed/config"
-	"github.com/levinion/gorush/internal/embed/pages"
-	"github.com/levinion/gorush/internal/embed/root"
-	"github.com/levinion/gorush/internal/embed/templates"
-	"github.com/levinion/gorush/internal/model"
-	"github.com/levinion/gorush/internal/util"
+	"github.com/levinion/gorush/builder"
+	"github.com/levinion/gorush/embed/assets"
+	"github.com/levinion/gorush/embed/config"
+	"github.com/levinion/gorush/embed/pages"
+	"github.com/levinion/gorush/embed/root"
+	"github.com/levinion/gorush/embed/templates"
+	"github.com/levinion/gorush/model"
+	"github.com/levinion/gorush/rebirth"
+	"github.com/levinion/gorush/util"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -77,7 +80,13 @@ func New(cmd *cobra.Command, args []string) {
 
 func BuildAndRender(cmd *cobra.Command, args []string) {
 	//指定所使用的模板，解析markdown，生成静态文件，路由静态文件
-	render(build())
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go rebirth.New().Call(func(c rebirth.Context) {
+		render(build(),c)
+	}).OnDirChange("content",time.Second*3).Done()
+	// 执行退出逻辑
+	<-c
 }
 
 func build() *builder.Builder {
@@ -91,11 +100,11 @@ func build() *builder.Builder {
 	return builder
 }
 
-func render(builder *builder.Builder) {
+func render(builder *builder.Builder,c rebirth.Context) {
 	addr := viper.GetString("server.addr")
 	builder.Render()
 	zap.L().Info("开始监听" + "http://" + addr + "...")
-	builder.Run(addr)
+	builder.Run(addr,c)
 }
 
 func clean(isCleanAll bool) {

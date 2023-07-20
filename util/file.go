@@ -2,11 +2,12 @@ package util
 
 import (
 	"fmt"
-	"github.com/levinion/gorush/internal/model"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/levinion/gorush/model"
 )
 
 // 去除文件扩展名，可传入完整路径或文件BaseName

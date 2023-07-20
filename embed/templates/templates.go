@@ -2,10 +2,11 @@ package templates
 
 import (
 	_ "embed"
-	"github.com/levinion/gorush/internal/model"
 	"html/template"
 	"os"
 	"path/filepath"
+
+	"github.com/levinion/gorush/model"
 )
 
 func Get() {

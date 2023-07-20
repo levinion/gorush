@@ -6,3 +6,8 @@ excludeDirs=["drafts"]
 
 [server]
 addr="localhost:9090"
+
+[style]
+[style.codeBlock]
+enable=false
+style="monokai"

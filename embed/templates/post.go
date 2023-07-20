@@ -2,7 +2,8 @@ package templates
 
 import (
 	_ "embed"
-	"github.com/levinion/gorush/internal/util"
+
+	"github.com/levinion/gorush/util"
 )
 
 //go:embed post/basic.html

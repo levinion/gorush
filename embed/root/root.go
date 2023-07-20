@@ -2,8 +2,9 @@ package root
 
 import (
 	"embed"
-	"github.com/levinion/gorush/internal/util"
 	"path/filepath"
+
+	"github.com/levinion/gorush/util"
 )
 
 //go:embed resources/*
@@ -19,6 +20,6 @@ func Get() {
 		if err != nil {
 			panic(err)
 		}
-		util.CreateFileWithContent(string(content),file.Name())
+		util.CreateFileWithContent(string(content), file.Name())
 	}
 }
