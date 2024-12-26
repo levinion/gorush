@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"runtime"
 	"syscall"
 	"time"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/levinion/gorush/embed/root"
 	"github.com/levinion/gorush/embed/templates"
 	"github.com/levinion/gorush/model"
-	"github.com/levinion/gorush/rebirth"
 	"github.com/levinion/gorush/util"
 
 	"github.com/spf13/cobra"
@@ -79,14 +79,9 @@ func New(cmd *cobra.Command, args []string) {
 }
 
 func BuildAndRender(cmd *cobra.Command, args []string) {
+	runtime.GOMAXPROCS(viper.GetInt("cpu.max_processes"))
 	//指定所使用的模板，解析markdown，生成静态文件，路由静态文件
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	go rebirth.New().Call(func(c rebirth.Context) {
-		render(build(),c)
-	}).OnDirChange("content",time.Second*3).Done()
-	// 执行退出逻辑
-	<-c
+	render(build())
 }
 
 func build() *builder.Builder {
@@ -100,11 +95,13 @@ func build() *builder.Builder {
 	return builder
 }
 
-func render(builder *builder.Builder,c rebirth.Context) {
+func render(builder *builder.Builder) {
 	addr := viper.GetString("server.addr")
 	builder.Render()
 	zap.L().Info("开始监听" + "http://" + addr + "...")
-	builder.Run(addr,c)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	builder.Run(addr, c)
 }
 
 func clean(isCleanAll bool) {

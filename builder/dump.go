@@ -31,7 +31,7 @@ func (builder *Builder) DumpContentOnlyPage(name string) {
 		Filename: name,
 		Content:  template.HTML(buf.String()),
 	}
-	builder.Repo.Pages[name] = page
+	builder.Pages[name] = page
 }
 
 // 读取content/posts下目录和文章，存取到builder.repo
@@ -63,21 +63,21 @@ func (builder *Builder) readPostsOfCategory(dirName string, file fs.DirEntry) {
 		},
 		Content: template.HTML(buf.String()),
 	}
-	builder.Repo.Posts = append(builder.Repo.Posts, post)
+	builder.Posts = append(builder.Posts, post)
 
 }
 
 // 按时间对文章进行排序
 func (builder *Builder) sortPostsByTime() {
-	sort.Slice(builder.Repo.Posts, func(i, j int) bool {
+	sort.Slice(builder.Posts, func(i, j int) bool {
 		timeI, _ := time.ParseInLocation(
 			"2006-01-02 15:04:05",
-			builder.Repo.Posts[i].MetaData.Created,
+			builder.Posts[i].Created,
 			time.Local,
 		)
 		timeJ, _ := time.ParseInLocation(
 			"2006-01-02 15:04:05",
-			builder.Repo.Posts[j].MetaData.Created,
+			builder.Posts[j].Created,
 			time.Local,
 		)
 		return timeI.After(timeJ)

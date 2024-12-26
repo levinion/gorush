@@ -12,7 +12,6 @@ import (
 	meta "github.com/yuin/goldmark-meta"
 
 	"github.com/levinion/gorush/model"
-	"github.com/levinion/gorush/rebirth"
 
 	"github.com/yuin/goldmark/parser"
 
@@ -22,8 +21,8 @@ import (
 type Builder struct {
 	Parser goldmark.Markdown
 	model.Repo
-	Counter
 	Mux *http.ServeMux
+	Counter
 }
 
 func NewBuilder() *Builder {
@@ -70,16 +69,11 @@ func (builder *Builder) Render() {
 	builder.RenderEachCategoryPosts()
 }
 
-func (builder *Builder) Run(addr string,c rebirth.Context) {
+func (builder *Builder) Run(addr string, c chan os.Signal) {
 
 	server := &http.Server{Addr: addr, Handler: builder.Mux}
 	go server.ListenAndServe()
-	for{
-		if c.Check(){
-			builder.Mux=http.NewServeMux()
-			return
-		}
-	}
+	<-c
 
 }
 

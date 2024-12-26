@@ -1,13 +1,17 @@
+[cpu]
+max_processes = 4
+
 [pages]
-contentOnlyPages=["about"]
+contentOnlyPages = ["about"]
 
 [posts]
-excludeDirs=["drafts"]
+excludeDirs = ["drafts"]
 
 [server]
-addr="localhost:9090"
+addr = "localhost:9090"
 
 [style]
 [style.codeBlock]
-enable=false
-style="monokai"
+enable = false
+style = "monokai"
+
