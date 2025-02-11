@@ -22,7 +22,7 @@ func (builder *Builder) DumpAllContentOnlyPages() {
 
 func (builder *Builder) DumpContentOnlyPage(name string) {
 	path := filepath.Join("content", "pages", name+".md")
-	//由于没有元数据，所以舍弃
+	// 由于没有元数据，所以舍弃
 	buf, _, err := builder.ParseMarkdown(path)
 	if err != nil {
 		panic(err)
@@ -39,12 +39,11 @@ func (builder *Builder) DumpPosts() {
 	WalkPosts(func(dirName string, file fs.DirEntry) {
 		builder.readPostsOfCategory(dirName, file)
 	})
-	//按时间对文章进行排序
+	// 按时间对文章进行排序
 	builder.sortPostsByTime()
 }
 
 func (builder *Builder) readPostsOfCategory(dirName string, file fs.DirEntry) {
-
 	filename := filepath.Join(dirName, file.Name())
 	if filepath.Ext(filename) != ".md" {
 		return
@@ -58,13 +57,12 @@ func (builder *Builder) readPostsOfCategory(dirName string, file fs.DirEntry) {
 		Category: filepath.Base(dirName),
 		Filename: util.TrimExt(file.Name()),
 		MetaData: model.MetaData{
-			Title:   metaData["title"].(string), //断言为string类型
+			Title:   metaData["title"].(string), // 断言为string类型
 			Created: metaData["created"].(string),
 		},
 		Content: template.HTML(buf.String()),
 	}
 	builder.Posts = append(builder.Posts, post)
-
 }
 
 // 按时间对文章进行排序

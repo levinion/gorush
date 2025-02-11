@@ -72,7 +72,7 @@ func IsNotIn[T string | int | float32 | float64](arr []T, target T) bool {
 }
 
 func ReturnCategoryList(posts *[]model.Post) []string {
-	var arr = make([]string, 0)
+	arr := make([]string, 0)
 	for _, post := range *posts {
 		if IsNotIn(arr, post.Category) {
 			arr = append(arr, post.Category)

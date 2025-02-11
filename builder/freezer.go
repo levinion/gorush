@@ -52,7 +52,7 @@ func (builder *Builder) FreezeContentOnlyPage(name string) {
 		panic(err)
 	}
 	defer f.Close()
-	//传入page对象
+	// 传入page对象
 	t.Execute(f, builder.Pages[name])
 }
 
@@ -76,11 +76,10 @@ func (builder *Builder) FreezeContents() {
 
 // 静态化每个分类下文章页面
 func (builder *Builder) FreezeEachCategoryPosts() {
-
-	//在public/posts中生成静态文件
+	// 在public/posts中生成静态文件
 	templateFile := filepath.Join("templates", "pages", "eachCategoryPosts", "index.html")
 
-	var cMap = make(map[string][]model.Post)
+	cMap := make(map[string][]model.Post)
 
 	for _, post := range builder.Posts {
 		cMap[post.Category] = append(cMap[post.Category], post)
@@ -99,7 +98,7 @@ func (builder *Builder) FreezeEachCategoryPosts() {
 		if err != nil {
 			panic(err)
 		}
-		//传入post
+		// 传入post
 		t.Execute(f, posts)
 	}
 }
@@ -123,8 +122,7 @@ func (builder *Builder) FreezeIndex() {
 
 // 静态化文章页面
 func (builder *Builder) FreezePosts(tmpl string) {
-
-	//在public/posts中生成静态文件
+	// 在public/posts中生成静态文件
 	templateFile := filepath.Join("templates", "posts", tmpl, "index.html")
 
 	for _, post := range builder.Posts {

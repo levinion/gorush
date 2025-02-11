@@ -1,11 +1,11 @@
 package builder
 
 import (
+	"bytes"
 	"html/template"
 	"net/http"
-	"path/filepath"
-
 	"os"
+	"path/filepath"
 
 	"github.com/yuin/goldmark"
 
@@ -14,8 +14,6 @@ import (
 	"github.com/levinion/gorush/model"
 
 	"github.com/yuin/goldmark/parser"
-
-	"bytes"
 )
 
 type Builder struct {
@@ -46,7 +44,7 @@ func (builder *Builder) Dump() {
 
 // 页面静态化
 func (builder *Builder) Freeze(tmpl string) {
-	//Posts页面静态化
+	// Posts页面静态化
 	builder.FreezePosts(tmpl)
 	builder.FreezeIndex()
 	builder.FreezeContents()
@@ -70,15 +68,12 @@ func (builder *Builder) Render() {
 }
 
 func (builder *Builder) Run(addr string, c chan os.Signal) {
-
 	server := &http.Server{Addr: addr, Handler: builder.Mux}
 	go server.ListenAndServe()
 	<-c
-
 }
 
-//以下是工具函数：
-
+// 以下是工具函数：
 func (builder *Builder) ParseMarkdown(path string) (bytes.Buffer, map[string]any, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {
@@ -86,7 +81,7 @@ func (builder *Builder) ParseMarkdown(path string) (bytes.Buffer, map[string]any
 	}
 
 	context := parser.NewContext()
-	var buf bytes.Buffer //转化结果存储
+	var buf bytes.Buffer // 转化结果存储
 	builder.Parser.Convert(file, &buf, parser.WithContext(context))
 	metaData := meta.Get(context)
 	return buf, metaData, nil
@@ -94,7 +89,8 @@ func (builder *Builder) ParseMarkdown(path string) (bytes.Buffer, map[string]any
 
 // 调用http.ParseFiles方法，附加通用模板
 func ParseFiles(filename string) (*template.Template, error) {
-	var navTmpl = filepath.Join("templates", "common", "nav", "index.html")
-	var headerTmpl = filepath.Join("templates", "common", "header", "index.html")
-	return template.ParseFiles(filename, navTmpl, headerTmpl)
+	navTmpl := filepath.Join("templates", "common", "nav", "index.html")
+	headerTmpl := filepath.Join("templates", "common", "header", "index.html")
+	basename := filepath.Base(filename)
+	return template.New(basename).Delims("{{{", "}}}").ParseFiles(filename, navTmpl, headerTmpl)
 }

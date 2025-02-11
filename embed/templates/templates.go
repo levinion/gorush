@@ -31,7 +31,7 @@ func MakeStdPostTemplateFile(file string, meta model.MetaData) {
 		panic(err)
 	}
 	defer f.Close()
-	t, err := template.New("default").Parse(tmpl)
+	t, err := template.New("default").Delims("{{{", "}}}").Parse(tmpl)
 	if err != nil {
 		panic(err)
 	}

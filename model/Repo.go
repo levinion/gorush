@@ -5,7 +5,7 @@ import (
 )
 
 type Post struct {
-	//base name of the file without Ext
+	// base name of the file without Ext
 	Category string
 	Filename string
 	MetaData

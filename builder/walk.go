@@ -28,7 +28,7 @@ func WalkPosts(f func(dirName string, file fs.DirEntry)) {
 		}
 		dirName := filepath.Join(dir, entry.Name())
 		wg.Add(1)
-		//并发读取文章
+		// 并发读取文章
 		go func() {
 			files, err := os.ReadDir(dirName)
 			if err != nil {

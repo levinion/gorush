@@ -6,8 +6,7 @@ import (
 	"path/filepath"
 )
 
-//counter用以统计当前文章和页面总数，在Builder初始化前调用，以减少内存分配
-
+// counter用以统计当前文章和页面总数，在Builder初始化前调用，以减少内存分配
 type Counter struct {
 	PostsNum int
 	PagesNum int

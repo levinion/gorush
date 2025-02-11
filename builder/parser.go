@@ -13,7 +13,7 @@ import (
 )
 
 func NewParser() goldmark.Markdown {
-	//初始化Markdown解析器
+	// 初始化Markdown解析器
 
 	parserOption := goldmark.WithParserOptions(
 		parser.WithAutoHeadingID(),

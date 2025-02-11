@@ -9,6 +9,6 @@ func InitLogger() {
 		panic(err)
 	}
 	defer logger.Sync()
-	//替换全局logger，使用zap.L()调用
+	// 替换全局logger，使用zap.L()调用
 	zap.ReplaceGlobals(logger)
 }

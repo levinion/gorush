@@ -43,10 +43,10 @@ func (builder *Builder) RenderContents() {
 }
 
 func (builder *Builder) RenderEachCategoryPosts() {
-	//分别完成pattern和handler
+	// 分别完成pattern和handler
 	categoryList := util.ReturnCategoryList(&builder.Posts)
 	for _, category := range categoryList {
-		//pattern从/posts开始，到meta中定义的Title结束，与public结构保持一致
+		// pattern从/posts开始，到meta中定义的Title结束，与public结构保持一致
 		pattern := filepath.Join("/posts", category) + "/"
 		filename := filepath.Join("docs", "posts", category, "index.html")
 
@@ -64,7 +64,7 @@ func (builder *Builder) RenderIndex() {
 
 func (builder *Builder) RenderPosts() {
 	for _, post := range builder.Posts {
-		//pattern从/posts开始，到meta中定义的Title结束，与public结构保持一致
+		// pattern从/posts开始，到meta中定义的Title结束，与public结构保持一致
 		pattern := filepath.Join("/posts", post.Category, post.Filename+"/")
 		filename := filepath.Join("docs", "posts", post.Category, post.Filename, "index.html")
 
