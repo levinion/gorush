@@ -9,6 +9,7 @@ import (
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
+	goldmark_html "github.com/yuin/goldmark/renderer/html"
 	"go.abhg.dev/goldmark/anchor"
 )
 
@@ -33,6 +34,8 @@ func NewParser() goldmark.Markdown {
 		},
 	)
 
+	renderOption := goldmark.WithRendererOptions(goldmark_html.WithUnsafe())
+
 	var parser goldmark.Markdown
 	if viper.GetBool("style.codeBlock.enable") {
 		otherExtentions := goldmark.WithExtensions(
@@ -44,10 +47,10 @@ func NewParser() goldmark.Markdown {
 			),
 		)
 		parser = goldmark.New(
-			parserOption, defaultExtensions, otherExtentions,
+			parserOption, defaultExtensions, otherExtentions, renderOption,
 		)
 	} else {
-		parser = goldmark.New(parserOption, defaultExtensions)
+		parser = goldmark.New(parserOption, defaultExtensions, renderOption)
 	}
 	return parser
 }
